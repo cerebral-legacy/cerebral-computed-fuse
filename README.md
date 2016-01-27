@@ -15,34 +15,55 @@ npm install cerebral-module-fuse
 From your main.js
 
 ```js
-// your cerebral controller
 import controller from './controller'
-
 import fuse form 'cerebral-module-fuse'
 
-// configure modules
-const modules = {
-  matchedUsers: fuse({
+controller.modules({
+  findUsers: fuse({
     statePath: ['users'],  // statePath should point to either an object or array in the store
     options: { keys: ['firstName', 'lastName'] } // options are passed on to fuse.js
   })
-}
-
-// init the modules
-controller.modules(modules)
+})
 ```
 
 > See [fuse docs](https://github.com/krisk/Fuse) for more information about available options.
 
-from your action.js
+from your component.js
 
 ```js
-export default function findUser ({ input: { name }, services: { matchedUsers } }) {
-  matchedUsers.find(name)
+import React from 'react';
+import { Decorator as Cerebral } from 'cerebral-view-react';
+import fuse from 'cerebral-module-fuse/compute';
+
+@Cerebral({
+  users: fuse(['findUsers']) // where fuse is given the path to the module state
+})
+class App extends React.Component {
+  render() {
+    return (
+      <ul>
+        {this.props.users.map(user => (
+          <li>{`${user.firstName} ${user.lastName}`}</li>
+        ))}
+      </ul>
+    );
+  }
 }
 ```
 
-the module state will now contain all matching users under `['matchedUsers']`
+to execute the search simply call the `search` signal and the view will automatically update
+
+```js
+signals.findUsers.search({ query: 'John' })
+```
+
+you can also access the filtered data from an action via the provided services
+
+```js
+export default myAction({ state, services: { findUsers } }) {
+  const users = state.get(findUsers.fuse)
+}
+```
 
 ## Contribute
 
