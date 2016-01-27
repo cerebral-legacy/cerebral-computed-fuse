@@ -2,7 +2,7 @@
 
 > This module is currently a work in progress
 
-A cerebral module that adds fuzzy search to data in store.
+A cerebral module that adds fuzzy search to data in the store.
 
 ## Install
 
@@ -23,7 +23,7 @@ import fuse form 'cerebral-module-fuse'
 // configure modules
 const modules = {
   matchedUsers: fuse({
-    statePath: ['users'],  // statePath can be either an object or array
+    statePath: ['users'],  // statePath should point to either an object or array in the store
     options: { keys: ['firstName', 'lastName'] } // options are passed on to fuse.js
   })
 }
@@ -31,6 +31,8 @@ const modules = {
 // init the modules
 controller.modules(modules)
 ```
+
+> See [fuse docs](https://github.com/krisk/Fuse) for more information about available options.
 
 from your action.js
 

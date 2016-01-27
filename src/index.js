@@ -1,6 +1,6 @@
 // import fuse from 'fuse.js'
 
-export default (options) => {
+export default ({ statePath, options }) => {
   return (module) => {
   }
 }
