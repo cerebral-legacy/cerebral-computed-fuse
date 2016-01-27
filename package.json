@@ -1,0 +1,53 @@
+{
+  "name": "cerebral-module-fuse",
+  "version": "0.0.1",
+  "description": "A cerebral module that adds fuzzy search to data in store",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "lint": "standard src/**/*.js test/**/*.js --verbose | snazzy",
+    "start": "parallelshell 'babel src --watch --out-dir lib' 'watch --wait=1 \"npm run lint && mocha --compilers js:babel-core/register --recursive --reporter dot\" src test'",
+    "prebuild": "npm run lint",
+    "build": "rimraf lib && babel src --out-dir lib",
+    "pretest": "npm run lint",
+    "test": "mocha --compilers js:babel-core/register --recursive",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cerebral/cerebral-module-fuse.git"
+  },
+  "keywords": [
+    "cerebral",
+    "cerebral-module",
+    "search",
+    "fuzzy",
+    "fuse"
+  ],
+  "author": "Garth Williams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cerebral/cerebral-module-fuse/issues"
+  },
+  "homepage": "https://github.com/cerebral/cerebral-module-fuse#readme",
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-cli": "^6.4.5",
+    "babel-core": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13",
+    "chai": "^3.4.1",
+    "mocha": "^2.4.2",
+    "parallelshell": "^2.0.0",
+    "pouchdb": "^5.2.0",
+    "pouchdb-authentication": "^0.4.2",
+    "rimraf": "^2.5.1",
+    "snazzy": "^2.0.1",
+    "standard": "^5.4.1",
+    "watch": "^0.17.1"
+  },
+  "dependencies": {
+    "fuse.js": "^1.3.1"
+  }
+}
