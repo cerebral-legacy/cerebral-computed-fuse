@@ -14,7 +14,7 @@ export default ({ statePath, options }) => {
     })
 
     module.addServices({
-      fuse: compute([module.name])
+      fuse: compute(module.name.split('.'))
     })
   }
 }
