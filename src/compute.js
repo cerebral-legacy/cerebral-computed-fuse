@@ -17,7 +17,7 @@ const dataSet = (dataPath, options) => {
 export default modulePath => {
   const compute = get => {
     const state = get(modulePath)
-    if (state.query && state.statePath) {
+    if (state && state.query && state.statePath) {
       const fuse = get(dataSet(state.statePath, state.options))
       return fuse.search(state.query)
     }
