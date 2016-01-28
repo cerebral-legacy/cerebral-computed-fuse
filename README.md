@@ -1,7 +1,5 @@
 # cerebral-module-fuse
 
-> This module is currently a work in progress
-
 A cerebral module that adds fuzzy search to data in the store.
 
 ## Install
