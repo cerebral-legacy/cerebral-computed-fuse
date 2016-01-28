@@ -2,7 +2,7 @@ import search from './chains/search'
 import compute from './compute'
 
 export default ({ statePath, options }) => {
-  return (module) => {
+  return module => {
     module.addState({
       statePath,
       options,
@@ -13,8 +13,10 @@ export default ({ statePath, options }) => {
       search
     })
 
+    const modulePath = module.name.split('.')
     module.addServices({
-      fuse: compute(module.name.split('.'))
+      fuse: compute(modulePath),
+      queryPath: [...modulePath, 'query']
     })
   }
 }
