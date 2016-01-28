@@ -3,18 +3,18 @@ import compute from './compute'
 
 export default ({ statePath, options }) => {
   return (module) => {
-    module.state({
+    module.addState({
       statePath,
       options,
       query: null
     })
 
-    module.signals({
+    module.addSignals({
       search
     })
 
-    module.services({
-      fuse: compute(module.path)
+    module.addServices({
+      fuse: compute([module.name])
     })
   }
 }

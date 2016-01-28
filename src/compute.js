@@ -8,7 +8,7 @@ const dataSet = (dataPath, options) => {
     } else if (!Array.isArray(values)) {
       values = []
     }
-    return new Fuse(values, options)
+    return new Fuse(values, Object.assign({}, options))
   }
   compute.computedRef = JSON.stringify({ name: 'dataset', dataPath, options })
   return compute
