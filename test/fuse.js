@@ -10,10 +10,7 @@ controller.addModules({
   })
 })
 controller.addSignals({
-  output: {
-    chain: [ ({ state, services }) => state.set('output', state.get(services.findUsers.fuse)) ],
-    sync: true
-  }
+  output: [ ({ state, services }) => state.set('output', state.get(services.findUsers.fuse)) ]
 })
 const signals = controller.getSignals()
 
@@ -40,7 +37,7 @@ describe('fuse', function () {
 
   it('finds things', function () {
     signals.findUsers.search.sync({ query: 'Guryanov' })
-    signals.output()
+    signals.output.sync()
     expect(tree.get(['output'])).to.eql([{ firstName: 'Aleksey', lastName: 'Guryanov' }])
   })
 })

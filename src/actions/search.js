@@ -1,3 +1,7 @@
-export default ({ input: { query }, module }) => {
-  module.state.set('query', query)
+export default (modulePath) => {
+  const queryPath = [...modulePath, 'query']
+
+  return ({ input: { query }, state }) => {
+    state.set(queryPath, query)
+  }
 }

@@ -1,6 +1,6 @@
 {
   "name": "cerebral-module-fuse",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A cerebral module that adds fuzzy search to data in store",
   "main": "lib/index.js",
   "files": [

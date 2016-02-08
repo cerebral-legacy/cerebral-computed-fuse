@@ -1,5 +1,5 @@
 import search from '../actions/search'
 
-export default [
-  search
+export default (modulePath) => [
+  search(modulePath)
 ]

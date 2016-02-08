@@ -2,7 +2,9 @@ import search from './chains/search'
 import compute from './compute'
 
 export default ({ statePath, options }) => {
-  return module => {
+  return (module) => {
+    const modulePath = module.name.split('.')
+
     module.addState({
       statePath,
       options,
@@ -10,10 +12,9 @@ export default ({ statePath, options }) => {
     })
 
     module.addSignals({
-      search
+      search: search(modulePath)
     })
 
-    const modulePath = module.name.split('.')
     module.addServices({
       fuse: compute(modulePath),
       queryPath: [...modulePath, 'query']

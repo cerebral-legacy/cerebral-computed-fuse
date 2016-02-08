@@ -1,10 +1,10 @@
 import Fuse from 'fuse.js'
 
 const dataSet = (dataPath, options) => {
-  const compute = get => {
+  const compute = (get) => {
     let values = get(dataPath)
     if (typeof values === 'object') {
-      values = Object.keys(values).map(key => values[key])
+      values = Object.keys(values).map((key) => values[key])
     } else if (!Array.isArray(values)) {
       values = []
     }
@@ -14,8 +14,8 @@ const dataSet = (dataPath, options) => {
   return compute
 }
 
-export default modulePath => {
-  const compute = get => {
+export default (modulePath) => {
+  const compute = (get) => {
     const state = get(modulePath)
     if (state && state.query && state.statePath) {
       const fuse = get(dataSet(state.statePath, state.options))
