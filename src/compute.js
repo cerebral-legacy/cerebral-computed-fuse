@@ -10,7 +10,7 @@ const dataSet = (dataPath, options) => {
     }
     return new Fuse(values, Object.assign({}, options))
   }
-  compute.computedRef = JSON.stringify({ name: 'dataset', dataPath, options })
+  compute.computedRef = JSON.stringify({ name: 'dataset', dataPath, options }).replace(/_/g, '#')
   return compute
 }
 
@@ -23,6 +23,6 @@ export default (modulePath) => {
     }
     return []
   }
-  compute.computedRef = JSON.stringify({ name: 'fuse', modulePath })
+  compute.computedRef = JSON.stringify({ name: 'fuse', modulePath }).replace(/_/g, '#')
   return compute
 }
