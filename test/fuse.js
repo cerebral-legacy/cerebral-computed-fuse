@@ -1,43 +1,59 @@
-/*global beforeEach,afterEach,describe,it*/
+/* global beforeEach,describe,it */
 import { expect } from 'chai'
-import controller from './helpers/controller'
-import fuseModule from '../src'
+import { Controller } from 'cerebral-testable'
+import fuse from '../src'
+import computed from '../src/computed'
 
-controller.addModules({
-  findUsers: fuseModule({
-    statePath: ['users'],
-    options: { keys: ['firstName', 'lastName'] }
-  })
-})
-controller.addSignals({
-  output: [ ({ state, services }) => state.set('output', state.get(services.findUsers.fuse)) ]
-})
-const signals = controller.getSignals()
+describe('fuse', () => {
+  let controller, signals
 
-let tree
+  beforeEach(() => {
+    [ controller, signals ] = Controller({
+      users: [
+        { firstName: 'Brian', lastName: 'Fitch' },
+        { firstName: 'Christian', lastName: 'Alfoni' },
+        { firstName: 'Garth', lastName: 'Williams' },
+        { firstName: 'Aleksey', lastName: 'Guryanov' },
+        { firstName: 'Thomas', lastName: 'Rich' }
+      ],
+      output: null
+    }, {
+      findUsers: fuse({
+        statePath: ['users'],
+        options: { keys: ['firstName', 'lastName'] }
+      })
+    })
 
-describe('fuse', function () {
-  afterEach(function () {
-    controller.reset()
-  })
-
-  beforeEach(function () {
-    tree = controller.model.tree
-    tree.set(['users'], [
-      { firstName: 'Brian', lastName: 'Fitch' },
-      { firstName: 'Christian', lastName: 'Alfoni' },
-      { firstName: 'Garth', lastName: 'Williams' },
-      { firstName: 'Aleksey', lastName: 'Guryanov' },
-      { firstName: 'Thomas', lastName: 'Rich' }
-    ])
-    tree.set(['findUsers', 'query'], null)
-    tree.set(['output'], null)
-    tree.commit()
+    controller.addSignals({
+      output: [ ({ state, services }) => state.set('output', services.findUsers.get(state)) ]
+    })
   })
 
-  it('finds things', function () {
-    signals.findUsers.search.sync({ query: 'Guryanov' })
-    signals.output.sync()
-    expect(tree.get(['output'])).to.eql([{ firstName: 'Aleksey', lastName: 'Guryanov' }])
+  describe('search signal', () => {
+    it('sets the query state', () => {
+      return controller.test(() => signals.findUsers.search({ query: 'test' })).then(() => {
+        expect(controller.get('findUsers.query')).to.equal('test')
+      })
+    })
+  })
+
+  describe('computed', () => {
+    it('finds things', () => {
+      return controller.test(() => signals.findUsers.search({ query: 'Alfonzo' }))
+        .then(() => {
+          const matches = computed({ modulePath: 'findUsers', statePath: 'users' }).get(controller.get())
+          expect(matches).to.eql([{ firstName: 'Christian', lastName: 'Alfoni' }])
+        })
+    })
+  })
+
+  describe('get service', () => {
+    it('finds things', () => {
+      return controller.test(() => signals.findUsers.search({ query: 'Guryanov' }))
+        .then(() => controller.test(() => signals.output()))
+        .then(() => {
+          expect(controller.get('output')).to.eql([{ firstName: 'Aleksey', lastName: 'Guryanov' }])
+        })
+    })
   })
 })

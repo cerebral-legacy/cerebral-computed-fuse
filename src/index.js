@@ -1,12 +1,11 @@
 import search from './chains/search'
-import compute from './compute'
+import computed from './computed'
 
 export default ({ statePath, options }) => {
   return (module) => {
-    const modulePath = module.name.split('.')
+    const modulePath = module.name
 
     module.addState({
-      statePath,
       options,
       query: null
     })
@@ -16,8 +15,7 @@ export default ({ statePath, options }) => {
     })
 
     module.addServices({
-      fuse: compute(modulePath),
-      queryPath: [...modulePath, 'query']
+      get: (state) => state.computed(computed({ modulePath, statePath }))
     })
   }
 }
