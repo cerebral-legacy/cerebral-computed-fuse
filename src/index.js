@@ -1,21 +1,21 @@
-import search from './chains/search'
-import computed from './computed'
+import { Computed } from 'cerebral'
+import Fuse from 'fuse.js'
 
-export default ({ statePath, options }) => {
-  return (module) => {
-    const modulePath = module.name
-
-    module.addState({
-      options,
-      query: null
-    })
-
-    module.addSignals({
-      search: search(modulePath)
-    })
-
-    module.addServices({
-      get: (state) => state.computed(computed({ modulePath, statePath }))
-    })
+const fuse = Computed(({ dataPath }) => ({
+  data: dataPath
+}), ({ data, options }) => {
+  let values = []
+  if (typeof data === 'object') {
+    values = Object.keys(data).map((key) => data[key])
+  } else if (Array.isArray(values)) {
+    values = data
   }
-}
+  return new Fuse(values, Object.assign({}, Array.isArray(options) ? { keys: options } : options))
+})
+
+const query = Computed(({ dataPath, queryPath, options }) => ({
+  fuse: fuse({ dataPath, options }),
+  query: queryPath
+}), ({ fuse, query }) => fuse.search(query))
+
+export default (dataPath, queryPath, options) => query({ dataPath, queryPath, options })

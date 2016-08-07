@@ -1,40 +1,34 @@
-# cerebral-module-fuse
+# cerebral-computed-fuse
 
-A cerebral module that adds fuzzy search to data in the store.
+A cerebral computed function that adds fuzzy search to data in store.
 
 ## Install
 
 ```
-npm install cerebral-module-fuse
+npm install cerebral-computed-fuse
 ```
+
+## Api
+
+`fuse(dataPath, queryPath, options)`
+
+where
+
+* `dataPath`: is the location in the state store of an array or hash of objects to search
+* `queryPath`: is the location in the state store of a string to search for
+* `options`: is an array of keys to search or an fuse options object
+
+> See [fuse docs](https://github.com/krisk/Fuse) for more information about search keys or other available options.
 
 ## Usage
-
-From your main.js
-
-```js
-import controller from './controller'
-import fuse from 'cerebral-module-fuse'
-
-controller.modules({
-  findUsers: fuse({
-    statePath: 'users',  // statePath should point to either an object or array in the store
-    options: { keys: ['firstName', 'lastName'] } // options are passed on to fuse.js
-  })
-})
-```
-
-> See [fuse docs](https://github.com/krisk/Fuse) for more information about available options.
-
-from your component.js
 
 ```js
 import React from 'react'
 import { connect } from 'cerebral-view-react'
-import fuse from 'cerebral-module-fuse/computed'
+import fuse from 'cerebral-module-fuse'
 
 export default connect({
-  users: fuse({ modulePath: 'findUsers', statePath: 'users' })
+  users: fuse('users', 'query', ['firstName', 'lastName'])
 }, ({ users }) => (
   <ul>
     {users.map(user => (
@@ -44,17 +38,13 @@ export default connect({
 ))
 ```
 
-to execute the search simply call the `search` signal and the view will automatically update
+you can also access the filtered data from an action using the same computed function
 
 ```js
-signals.findUsers.search({ query: 'John' })
-```
+import fuse from 'cerebral-module-fuse'
 
-you can also access the filtered data from an action via the provided service
-
-```js
 export default myAction({ state, services: { findUsers } }) {
-  const users = findUsers.get(state)
+  const users = state.computed(fuse('users', 'query', ['firstName', 'lastName']))
 }
 ```
 
