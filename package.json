@@ -1,7 +1,7 @@
 {
   "name": "cerebral-computed-fuse",
   "version": "0.3.0",
-  "description": "A cerebral computed function that adds fuzzy search to data in store",
+  "description": "A cerebral computed function that adds fuzzy search to data in the store",
   "main": "lib/index.js",
   "files": [
     "lib"

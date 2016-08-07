@@ -1,6 +1,6 @@
 # cerebral-computed-fuse
 
-A cerebral computed function that adds fuzzy search to data in store.
+A cerebral computed function that adds fuzzy search to data in the store.
 
 ## Install
 
@@ -43,7 +43,7 @@ you can also access the filtered data from an action using the same computed fun
 ```js
 import fuse from 'cerebral-module-fuse'
 
-export default myAction({ state, services: { findUsers } }) {
+export default myAction({ state }) {
   const users = state.computed(fuse('users', 'query', ['firstName', 'lastName']))
 }
 ```
