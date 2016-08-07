@@ -25,7 +25,7 @@ where
 ```js
 import React from 'react'
 import { connect } from 'cerebral-view-react'
-import fuse from 'cerebral-module-fuse'
+import fuse from 'cerebral-computed-fuse'
 
 export default connect({
   users: fuse('users', 'query', ['firstName', 'lastName'])
@@ -41,7 +41,7 @@ export default connect({
 you can also access the filtered data from an action using the same computed function
 
 ```js
-import fuse from 'cerebral-module-fuse'
+import fuse from 'cerebral-computed-fuse'
 
 export default myAction({ state }) {
   const users = state.computed(fuse('users', 'query', ['firstName', 'lastName']))
