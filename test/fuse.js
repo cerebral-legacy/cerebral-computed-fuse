@@ -7,16 +7,18 @@ describe('fuse', () => {
   let controller
 
   beforeEach(() => {
-    [ controller ] = Controller({
-      users: [
-        { firstName: 'Brian', lastName: 'Fitch' },
-        { firstName: 'Christian', lastName: 'Alfoni' },
-        { firstName: 'Garth', lastName: 'Williams' },
-        { firstName: 'Aleksey', lastName: 'Guryanov' },
-        { firstName: 'Thomas', lastName: 'Rich' }
-      ],
-      query: 'Alfonzo'
-    })
+    ({ controller } = Controller({
+      state: {
+        users: [
+          { firstName: 'Brian', lastName: 'Fitch' },
+          { firstName: 'Christian', lastName: 'Alfoni' },
+          { firstName: 'Garth', lastName: 'Williams' },
+          { firstName: 'Aleksey', lastName: 'Guryanov' },
+          { firstName: 'Thomas', lastName: 'Rich' }
+        ],
+        query: 'Alfonzo'
+      }
+    }))
   })
 
   it('finds things', () => {
