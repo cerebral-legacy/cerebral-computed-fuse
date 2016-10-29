@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cerebral/cerebral-computed-fuse.git"
+    "url": "git+https://github.com/cerebral-legacy/cerebral-computed-fuse.git"
   },
   "keywords": [
     "cerebral",
@@ -29,9 +29,9 @@
   "author": "Garth Williams",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cerebral/cerebral-computed-fuse/issues"
+    "url": "https://github.com/cerebral-legacy/cerebral-computed-fuse/issues"
   },
-  "homepage": "https://github.com/cerebral/cerebral-computed-fuse#readme",
+  "homepage": "https://github.com/cerebral-legacy/cerebral-computed-fuse#readme",
   "devDependencies": {
     "babel": "^6.5.2",
     "babel-cli": "^6.11.4",
